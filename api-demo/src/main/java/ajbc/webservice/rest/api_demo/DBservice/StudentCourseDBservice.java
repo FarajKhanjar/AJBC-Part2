@@ -28,7 +28,7 @@ public class StudentCourseDBservice
 		List<Course> courses = null;
 		Student student = students.get(id);
 		if(student == null)
-			throw new MissingDataException("Student with id %d is not in DB".formatted(id));
+			//throw new MissingDataException("Student with id %d is not in DB".formatted(id));
 		courses = student.getCourses();
 		return courses;
 	}

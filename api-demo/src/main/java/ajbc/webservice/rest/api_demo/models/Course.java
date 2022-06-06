@@ -3,8 +3,6 @@ package ajbc.webservice.rest.api_demo.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import ajbc.webservice.rest.api_demo_2.models.Student;
-
 public class Course 
 {
 	private final long NUMBER;
