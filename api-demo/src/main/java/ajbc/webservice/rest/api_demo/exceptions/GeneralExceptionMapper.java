@@ -9,8 +9,7 @@ public class GeneralExceptionMapper implements ExceptionMapper<Throwable>
 
 	@Override
 	public Response toResponse(Throwable exception) {
-		// TODO Auto-generated method stub
-		return null;
+		return Response.status(1234).entity(exception.getMessage()).build();
 	}
 	
 	

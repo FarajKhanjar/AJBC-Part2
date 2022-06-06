@@ -63,5 +63,11 @@ public class CourseResource
 	{
 		return courseDB.deleteCourse(number);
 	}
+	
+//	@GET
+//	public List<Course> getCourseByStudentId(@PathParam("id")long id){
+//		return coursesDB.getCoursesByStudentId(id);
+//		
+//	}
 
 }

@@ -16,8 +16,9 @@ public class MissingDataExceptionMapper implements ExceptionMapper<MissingDataEx
 	public Response toResponse(MissingDataException exception) 
 	{
 		ErrorMessage errorMsg = new ErrorMessage(exception.getMessage(), "www.ask.manager.com", InternalErrorCode.INVALID_ID);
-		//return Response.status(Status.NOT_FOUND).entity(errorMsg).build();
-		return Response.status(InternalErrorCode.INVALID_ID.getCodeNum()).entity(errorMsg).build();
+		return Response.status(Status.NOT_FOUND)
+		.entity(errorMsg)
+		.build();
 	}
 
 }

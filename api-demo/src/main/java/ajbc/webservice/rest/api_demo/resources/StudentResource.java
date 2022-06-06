@@ -95,6 +95,7 @@ public class StudentResource
 //		return studentDB.addStudent(student);
 //	}
 
+	// add new student
 	@POST
 	public Response addStudent(Student student, @Context UriInfo uriInfo) {
 		Student currStudent = studentDB.addStudent(student);
@@ -121,5 +122,10 @@ public class StudentResource
 	@Path("/{id}")
 	public Student deleteStudent(@PathParam("id") long id) {
 		return studentDB.deleteStudent(id);
+	}
+	
+	@Path("/{id}/courses")
+	public CourseResource getCourseResource() {
+		return new CourseResource();
 	}
 }

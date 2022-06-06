@@ -58,5 +58,21 @@ public class CourseDBservice
 	public Course deleteCourse(long number) {
 		return courses.remove(number);
 	}
+	
+//	
+//	public Student getStudentById(long id) {
+//		return students.get(id);
+//	}
+//	
+//	//add student to DB
+//	public Student addStudent(Student student) {
+//		students.put(student.getID(), student);
+//		return student;
+//	}
+//	
+//
+//	public List<Course> getCoursesByStudentId(long id) {
+//	}
+//	
 
 }
