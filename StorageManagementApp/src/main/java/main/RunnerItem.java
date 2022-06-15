@@ -45,6 +45,9 @@ public class RunnerItem
 			
 			// Adding Item to DB
 			// addItem(connection);
+			
+			// Multi-updating Item
+			// multiUpdateItem(connection);
 
 			
 			
@@ -96,6 +99,12 @@ public class RunnerItem
 
 		ItemDBService dbService = new ItemDBService();
 		dbService.updateItem(connection, item_1);
+	}
+	
+	private static void multiUpdateItem(Connection connection) 
+	{
+		ItemDBService dbService = new ItemDBService();
+		dbService.multiUpdateItem(connection);
 	}
 	
 

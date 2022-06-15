@@ -164,4 +164,85 @@ public class ItemDBService
 		}
 		return item;
 	}
+	
+	
+	public void multiUpdateItem(Connection con) 
+	{
+		
+		try (Statement statement = con.createStatement()) 
+		{
+			//set connection auto commit to false
+			con.setAutoCommit(false);
+			
+			//update-Item #1
+			int currentItemIndex = 1000;
+			String newItemName = "Oxygen Tanks";
+			float newUnitPrice = 300f;
+			String newPurchaseDate = "2015-02-02";
+			int newQuantity = 15;
+			
+				String query = "update Item set itemName=?, unitPrice=?, purchaseDate=?, quantity=? where id = ?";
+				PreparedStatement preparedStatement = con.prepareStatement(query);
+				preparedStatement.setString(1, newItemName);
+				preparedStatement.setFloat(2, newUnitPrice);
+				preparedStatement.setDate(3, Date.valueOf(LocalDate.parse(newPurchaseDate)));
+				preparedStatement.setInt(4, newQuantity);
+				preparedStatement.setInt(5, currentItemIndex);
+				preparedStatement.addBatch();
+				
+				//update-Item #2
+				currentItemIndex = 1011;
+				newItemName = "Eyewash Station";
+				newUnitPrice = 112;
+				newPurchaseDate = "2021-01-01";
+				newQuantity = 77;
+				preparedStatement.setString(1, newItemName);
+				preparedStatement.setFloat(2, newUnitPrice);
+				preparedStatement.setDate(3, Date.valueOf(LocalDate.parse(newPurchaseDate)));
+				preparedStatement.setInt(4, newQuantity);
+				preparedStatement.setInt(5, currentItemIndex);
+				preparedStatement.addBatch();
+		
+				//update-Item #3
+				currentItemIndex = 1008;
+				newItemName = "First Aid Kit";
+				newUnitPrice = 550;
+				newPurchaseDate = "2022-02-02";
+				newQuantity = 140;
+				preparedStatement.setString(1, newItemName);
+				preparedStatement.setFloat(2, newUnitPrice);
+				preparedStatement.setDate(3, Date.valueOf(LocalDate.parse(newPurchaseDate)));
+				preparedStatement.setInt(4, newQuantity);
+				preparedStatement.setInt(5, currentItemIndex);
+				preparedStatement.addBatch();
+				
+				int[] rowsAffected = preparedStatement.executeBatch();
+				int index = 1;
+				for(int i : rowsAffected)
+				{
+					if(i==0)
+					{
+						String errorMsg = "Check data, something wrong!";
+						throw new SQLException(errorMsg);
+					} 
+					else
+					{
+						System.out.println(i+" Success to update-Item #"+index);
+						index++;
+					}
+				}
+				
+				//if everything is ok - commit changes
+				con.commit();
+
+			} catch (SQLException e) {
+				try {
+					con.rollback();
+					System.out.println("Rolling DB back "+e.getMessage());
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+	}
 }

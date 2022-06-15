@@ -50,6 +50,9 @@ public class RunnerLocation
 			
 			// Adding location to DB
 			// addLocation(connection);
+			
+			// Multi-updating Location
+			// multiUpdateLocation(connection);
 
 		} catch (SQLException e) 
 		{
@@ -110,6 +113,12 @@ public class RunnerLocation
 		dbService.updateLocation(connection, location_1);
 		//dbService.updateLocation(connection, location_2);
 		//dbService.updateLocation(connection, location_3);
+	}
+	
+	private static void multiUpdateLocation(Connection connection) 
+	{
+		LocationDBService dbService = new LocationDBService();
+		dbService.multiUpdateLocation(connection);
 	}
 
 }

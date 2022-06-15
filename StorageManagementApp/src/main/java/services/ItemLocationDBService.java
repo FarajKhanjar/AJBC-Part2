@@ -179,4 +179,83 @@ public class ItemLocationDBService
 		}
 		return null;
 	}
+	
+	
+	public void multiUpdateItemLocation(Connection con) 
+	{
+		
+		try (Statement statement = con.createStatement()) 
+		{
+			//set connection auto commit to false
+			con.setAutoCommit(false);
+			
+			//update-ItemLocation #1
+			int indexOldItem = 1006;
+			int indexNewItem = 1006;
+			int indexOldLocation = 110;
+			int indexNewLocation = 102;
+			ItemLocation newItemLocation = new ItemLocation(indexNewItem, indexNewLocation);	
+			
+				String query = "update ItemLocation set itemId=?, locationId=? where itemId = ? and locationId=?";
+				PreparedStatement preparedStatement = con.prepareStatement(query);
+				
+				preparedStatement.setInt(1, newItemLocation.getItemId());
+				preparedStatement.setInt(2, newItemLocation.getLocationId());
+				preparedStatement.setInt(3, indexOldItem);
+				preparedStatement.setInt(4, indexOldLocation);
+				preparedStatement.addBatch();
+				
+				//update-ItemLocation #2
+				indexOldItem = 1008;
+				indexNewItem = 1008;
+				indexOldLocation = 108;
+				indexNewLocation = 101;
+				newItemLocation = new ItemLocation(indexNewItem, indexNewLocation);
+				preparedStatement.setInt(1, newItemLocation.getItemId());
+				preparedStatement.setInt(2, newItemLocation.getLocationId());
+				preparedStatement.setInt(3, indexOldItem);
+				preparedStatement.setInt(4, indexOldLocation);
+				preparedStatement.addBatch();
+		
+				//update-ItemLocation #3
+				indexOldItem = 1000;
+				indexNewItem = 1008;
+				indexOldLocation = 104;
+				indexNewLocation = 110;
+				newItemLocation = new ItemLocation(indexNewItem, indexNewLocation);
+				preparedStatement.setInt(1, newItemLocation.getItemId());
+				preparedStatement.setInt(2, newItemLocation.getLocationId());
+				preparedStatement.setInt(3, indexOldItem);
+				preparedStatement.setInt(4, indexOldLocation);
+				preparedStatement.addBatch();
+				
+				int[] rowsAffected = preparedStatement.executeBatch();
+				int index = 1;
+				for(int i : rowsAffected)
+				{
+					if(i==0)
+					{
+						String errorMsg = "Check data, something wrong!";
+						throw new SQLException(errorMsg);
+					} 
+					else
+					{
+						System.out.println(i+" Success to update-ItemLocation #"+index);
+						index++;
+					}
+				}
+				
+				//if everything is ok - commit changes
+				con.commit();
+
+			} catch (SQLException e) {
+				try {
+					con.rollback();
+					System.out.println("Rolling DB back "+e.getMessage());
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+	}
 }

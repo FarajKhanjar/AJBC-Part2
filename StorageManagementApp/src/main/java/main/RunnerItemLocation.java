@@ -41,6 +41,8 @@ public class RunnerItemLocation
 			// update ItemLocation
 			// updateItemLocation(connection);
 			
+			// Multi-updating ItemLocation
+			// multiUpdateItemLocation(connection);
 
 		} catch (SQLException e) {
 
@@ -108,5 +110,12 @@ public class RunnerItemLocation
 
 		ItemLocationDBService dbService = new ItemLocationDBService();
 		dbService.updateItemLocation(connection, indexOldItem, indexOldLocation, item_location_1);
+	}
+	
+	private static void multiUpdateItemLocation(Connection connection) 
+	{
+		ItemLocationDBService dbService = new ItemLocationDBService();
+		dbService.multiUpdateItemLocation(connection);
+		
 	}
 }

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
+import models.ItemLocation;
 import models.Location;
 
 public class LocationDBService 
@@ -122,6 +123,75 @@ public class LocationDBService
 			}
 		}
 		return null;
+	}
+	
+	public void multiUpdateLocation(Connection con) 
+	{
+		
+		try (Statement statement = con.createStatement()) 
+		{
+			//set connection auto commit to false
+			con.setAutoCommit(false);
+			
+			//update-Location #1
+			int currentLocationIndex = 100;
+			String newLocationName = "Rehovot";
+			String newAccessCode = "9517536842"; 	
+			
+				String query = "update Location set locationName=?, accessCode=? where locationId = ?";
+				PreparedStatement preparedStatement = con.prepareStatement(query);
+				
+				preparedStatement.setString(1, newLocationName);
+				preparedStatement.setString(2, newAccessCode);
+				preparedStatement.setInt(3, currentLocationIndex);
+				preparedStatement.addBatch();
+				
+				//update-Location #2
+				currentLocationIndex = 102;
+				newLocationName = "Afula";
+				newAccessCode = "556677";
+				preparedStatement.setString(1, newLocationName);
+				preparedStatement.setString(2, newAccessCode);
+				preparedStatement.setInt(3, currentLocationIndex);
+				preparedStatement.addBatch();
+		
+				//update-ItemLocation #3
+				currentLocationIndex = 108;
+				newLocationName = "Haifa";
+				newAccessCode = "262177890";
+				preparedStatement.setString(1, newLocationName);
+				preparedStatement.setString(2, newAccessCode);
+				preparedStatement.setInt(3, currentLocationIndex);
+				preparedStatement.addBatch();
+				
+				int[] rowsAffected = preparedStatement.executeBatch();
+				int index = 1;
+				for(int i : rowsAffected)
+				{
+					if(i==0)
+					{
+						String errorMsg = "Check data, something wrong!";
+						throw new SQLException(errorMsg);
+					} 
+					else
+					{
+						System.out.println(i+" Success to update-Location #"+index);
+						index++;
+					}
+				}
+				
+				//if everything is ok - commit changes
+				con.commit();
+
+			} catch (SQLException e) {
+				try {
+					con.rollback();
+					System.out.println("Rolling DB back "+e.getMessage());
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
 	}
 	
 }
