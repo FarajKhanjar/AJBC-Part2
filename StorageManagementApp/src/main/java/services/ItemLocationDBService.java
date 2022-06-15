@@ -1,6 +1,8 @@
 package services;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,14 +15,23 @@ import models.ItemLocation;
 
 public class ItemLocationDBService 
 {
-	public ItemLocation addItemLocation(Connection con, ItemLocation itemLocation) 
+	public ItemLocation addItemLocation(Connection con, ItemLocation item_location) 
 	{
 		try (Statement statement = con.createStatement()) {
-			String query = "Insert Into ItemLocation (itemId,locationId)"
+			/*String query = "Insert Into ItemLocation (itemId,locationId)"
 					+ "values(%d,%d)".formatted(itemLocation.getItemId(), itemLocation.getLocationId());
+					*/
+			
+			String query = "Insert Into ItemLocation (itemId,locationId)"
+			        + "values(?,?)";
+			PreparedStatement preparedStatement = con.prepareStatement(query);
+			preparedStatement.setInt(1, item_location.getItemId());
+			preparedStatement.setInt(2, item_location.getLocationId());
 
-			if (statement.executeUpdate(query) == 1) {
-				return itemLocation;
+			int rowsAffected = preparedStatement.executeUpdate();
+			if (rowsAffected == 1) {
+				System.out.println("Success to add to DB! " + rowsAffected + " rows affected: ItemLocation #"+item_location.getItemId()+" - "+item_location.getLocationId());
+				return item_location;
 			}
 
 		} catch (SQLException e) {
@@ -135,20 +146,30 @@ public class ItemLocationDBService
 		return null;
 	}
 	
-	public ItemLocation updateItemLocation(Connection con, ItemLocation item_location) 
+	public ItemLocation updateItemLocation(Connection con, int indexOldItem, int indexOldLocation, ItemLocation item_location) 
 	{
-		ItemLocation currentItem = getItemLocation(con, item_location.getItemId(), item_location.getLocationId());
+		ItemLocation currentItem = getItemLocation(con, indexOldItem, indexOldLocation);
 		if (!item_location.equals(currentItem))  //if they are the same, it doesn't matter to update
 		{
 			try (Statement statement = con.createStatement()) 
 			{
-				String query = "update ItemLocation set locationId=%d where itemId=%d"
+				/*String query = "update ItemLocation set locationId=%d where itemId=%d"
 						       .formatted(item_location.getLocationId(),item_location.getItemId());
-
 				int rowsAffected = statement.executeUpdate(query);
+				*/
+				
+				String query = "update ItemLocation set itemId=?, locationId=? where itemId = ? and locationId=?";
+				PreparedStatement preparedStatement = con.prepareStatement(query);
+				preparedStatement.setInt(1, item_location.getItemId());
+				preparedStatement.setInt(2, item_location.getLocationId());
+				preparedStatement.setInt(3, indexOldItem);
+				preparedStatement.setInt(4, indexOldLocation);
+				
+				int rowsAffected = preparedStatement.executeUpdate();
+				
 				if (rowsAffected > 0) 
 				{
-					System.out.println("Success ! " + rowsAffected + " rows affected: ItemLocation #"+item_location.getItemId());
+					System.out.println("Success ! " + rowsAffected + " rows affected: ItemLocation #"+item_location.getItemId()+" - "+item_location.getLocationId());
 					return item_location;
 				}
 
@@ -158,5 +179,4 @@ public class ItemLocationDBService
 		}
 		return null;
 	}
-	
 }

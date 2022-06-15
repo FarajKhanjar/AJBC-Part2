@@ -1,23 +1,40 @@
 package services;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.Scanner;
 
 import models.Item;
 
 public class ItemDBService 
 {
+	protected static Scanner scanner = new Scanner(System.in);
+
 	public Item addItem(Connection con, Item item) 
 	{
-		try (Statement statement = con.createStatement()) {
-			String query = "Insert Into Item (itemName,unitPrice,purchaseDate,quantity)"
+		try (Statement statement = con.createStatement()) 
+		{
+			/*String query = "Insert Into Item (itemName,unitPrice,purchaseDate,quantity)"
 					+ "values('%s',%f,'%s',%d)".formatted(item.getItemName(), item.getUnitPrice(),
 							LocalDate.parse(item.getPurchaseDate()), item.getQuantity());
+							*/
+			
+			String query = "Insert Into Item (itemName,unitPrice,purchaseDate,quantity)"
+			        + "values(?,?,?,?)";
+			PreparedStatement preparedStatement = con.prepareStatement(query);
+			preparedStatement.setString(1, item.getItemName());
+			preparedStatement.setFloat(2, item.getUnitPrice());
+			preparedStatement.setDate(3, Date.valueOf(LocalDate.parse(item.getPurchaseDate())));
+			preparedStatement.setInt(4, item.getQuantity());
 
-			if (statement.executeUpdate(query) == 1) {
+			int rowsAffected = preparedStatement.executeUpdate();
+			if (rowsAffected == 1) {
+				System.out.println("Success to add to DB! " + rowsAffected + " rows affected: Item #"+item.getId());
 				return item;
 			}
 
@@ -83,11 +100,20 @@ public class ItemDBService
 		{
 			try (Statement statement = con.createStatement()) 
 			{
-				String query = "update Item set itemName='%s', unitPrice=%f, purchaseDate='%s', quantity=%d where id = %d"
+				/*String query = "update Item set itemName='%s', unitPrice=%f, purchaseDate='%s', quantity=%d where id = %d"
 						       .formatted(item.getItemName(), item.getUnitPrice(),
 						    	LocalDate.parse(item.getPurchaseDate()), item.getQuantity(), item.getId());
-
-				int rowsAffected = statement.executeUpdate(query);
+						    	*/
+				
+				String query = "update Item set itemName=?, unitPrice=?, purchaseDate=?, quantity=? where id = ?";
+				PreparedStatement preparedStatement = con.prepareStatement(query);
+				preparedStatement.setString(1, item.getItemName());
+				preparedStatement.setFloat(2, item.getUnitPrice());
+				preparedStatement.setDate(3, Date.valueOf(LocalDate.parse(item.getPurchaseDate())));
+				preparedStatement.setInt(4, item.getQuantity());
+				preparedStatement.setInt(5, item.getId());
+				
+				int rowsAffected = preparedStatement.executeUpdate();
 				if (rowsAffected > 0) 
 				{
 					System.out.println("Success ! " + rowsAffected + " rows affected: Item #"+item.getId());
@@ -99,5 +125,43 @@ public class ItemDBService
 			}
 		}
 		return null;
+	}
+	
+	
+	////////////
+	
+	public Item getItemById(Connection con) 
+	{
+		ResultSet resultSet = null;
+		Item item = null;
+
+		try (Statement statement = con.createStatement()) 
+		{
+			String query = "select * from item where id = ?";
+			PreparedStatement preparedStatement = con.prepareStatement(query);
+			System.out.println("Enter an item id to get all details: ");
+			int id = Integer.parseInt(scanner.next());
+			preparedStatement.setInt(1, id);
+			resultSet = preparedStatement.executeQuery();
+			
+			if (resultSet.next()) {
+				item = new Item();
+				item.setId(resultSet.getInt(1));
+				item.setItemName(resultSet.getString(2));
+				item.setUnitPrice(resultSet.getFloat(3));
+				item.setPurchaseDate(resultSet.getString(4).toString());
+				item.setQuantity(resultSet.getInt(5));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				resultSet.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return item;
 	}
 }

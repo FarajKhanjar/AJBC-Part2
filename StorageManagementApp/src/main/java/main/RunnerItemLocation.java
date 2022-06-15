@@ -22,24 +22,25 @@ public class RunnerItemLocation
 
 		try (Connection connection = new ConnectionManager(read.getServerAddress(), read.getPort(),
 				read.getDatabaseName(), read.getServerName(), read.getUser(), read.getPassword()).createConnection();) {
-			System.out.println("Connected");
+			System.out.println("Connected to ItemLocation Table");
 
 			// Get ItemLocation by index of item from DB
-			//int index = 1005;
-			//getAndPrintItemLocationByIdItem(connection,index);
+			// int index = 1005;
+			// getAndPrintItemLocationByIdItem(connection,index);
 			
 			// Get ItemLocation by index of location from DB
 			//int index = 102;
-			//getAndPrintItemLocationByIdLocation(connection,index);
+			// getAndPrintItemLocationByIdLocation(connection,index);
 
-			// Adding Item to DB
+			// Adding ItemLocation to DB
 			// addItemLocation(connection);
 
-			// Delete employee from DB
+			// Delete ItemLocation from DB
 			// deleteItemLocation(connection);
 
-			// update item
+			// update ItemLocation
 			// updateItemLocation(connection);
+			
 
 		} catch (SQLException e) {
 
@@ -81,7 +82,7 @@ public class RunnerItemLocation
 		ItemLocationDBService dbService = new ItemLocationDBService();
 		int INDEX_ITEM_TO_DELETE = 1008;
 		int INDEX_LOCATION_TO_DELETE = 108;
-		ItemLocation item_location = dbService.getItemLocation(connection, INDEX_ITEM_TO_DELETE,INDEX_LOCATION_TO_DELETE);
+		ItemLocation item_location = dbService.getItemLocation(connection, INDEX_ITEM_TO_DELETE, INDEX_LOCATION_TO_DELETE);
 		dbService.deleteItemLocation(connection, item_location);
 
 	}
@@ -90,21 +91,22 @@ public class RunnerItemLocation
 	{
 		ItemLocationDBService dbService = new ItemLocationDBService();
 
-		ItemLocation item_location_1 = new ItemLocation(1008,101);
-		ItemLocation item_location_2 = new ItemLocation(1008,102);
-		ItemLocation item_location_3 = new ItemLocation(1008,108);
+		ItemLocation item_location_1 = new ItemLocation(1011,108);
+		ItemLocation item_location_2 = new ItemLocation(1011,110);
 
 		dbService.addItemLocation(connection,item_location_1);
 		dbService.addItemLocation(connection,item_location_2);
-		dbService.addItemLocation(connection,item_location_3);
 	}
 
 	private static void updateItemLocation(Connection connection) 
 	{
-		ItemLocation item_location_1 = new ItemLocation(1004, 108);
+		int indexOldItem = 1008;
+		int indexNewItem = 1005;
+		int indexOldLocation = 102;
+		int indexNewLocation = 102;
+		ItemLocation item_location_1 = new ItemLocation(indexNewItem, indexNewLocation);
 
 		ItemLocationDBService dbService = new ItemLocationDBService();
-		dbService.updateItemLocation(connection, item_location_1);
+		dbService.updateItemLocation(connection, indexOldItem, indexOldLocation, item_location_1);
 	}
-
 }

@@ -18,7 +18,7 @@ public class RunnerItem
 
 		try (Connection connection = new ConnectionManager(read.getServerAddress(), read.getPort(),
 				read.getDatabaseName(), read.getServerName(), read.getUser(), read.getPassword()).createConnection();) {
-			System.out.println("Connected");
+			System.out.println("Connected to Item Table");
 
 			// Get Item by index from DB
 			// for(int index = 1000; index<=1009; index++)
@@ -34,7 +34,20 @@ public class RunnerItem
 
 			// update item
 			// updateItem(connection);
+			
+			//-------------------------{PreparedStatement}------------------------
+			
+			// Get Item by index from DB
+			// getAndPrintItem(connection,0);
+			
+			// update item
+			// updateItem(connection);
+			
+			// Adding Item to DB
+			// addItem(connection);
 
+			
+			
 		} catch (SQLException e) {
 
 			e.printStackTrace();
@@ -71,17 +84,19 @@ public class RunnerItem
 	private static void getAndPrintItem(Connection connection, int index) 
 	{
 		ItemDBService dbService = new ItemDBService();
-		Item item = dbService.getItem(connection, index);
+		//Item item = dbService.getItem(connection, index);
+		Item item = dbService.getItemById(connection);
 		System.out.println(item);
 
 	}
 
 	private static void updateItem(Connection connection) 
 	{
-		Item item_4 = new Item(1008, "First Aid Kit", 550, "2022-01-02", 125);
+		Item item_1 = new Item(1008, "First Aid Kit", 650, "2022-02-02", 135);
 
 		ItemDBService dbService = new ItemDBService();
-		dbService.updateItem(connection, item_4);
+		dbService.updateItem(connection, item_1);
 	}
+	
 
 }
