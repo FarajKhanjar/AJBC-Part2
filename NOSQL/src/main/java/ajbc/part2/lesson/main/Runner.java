@@ -1,4 +1,4 @@
-package main;
+package ajbc.part2.lesson.main;
 
 import org.bson.Document;
 
