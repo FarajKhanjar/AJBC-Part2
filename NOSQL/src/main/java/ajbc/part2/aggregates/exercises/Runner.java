@@ -42,7 +42,8 @@ What is the number of movies (type = movie ) in each year in a descending order 
 display the movie title with each comment that was created after 1.1.2017
  */
 
-public class Runner {
+public class Runner 
+{
 
 	public static void main(String[] args) 
 	{

@@ -4,8 +4,8 @@ import org.bson.types.ObjectId;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Measurment {
-
+public class Measurment 
+{
 	@SerializedName("_id")
 	private ObjectId id;
 	private double height;

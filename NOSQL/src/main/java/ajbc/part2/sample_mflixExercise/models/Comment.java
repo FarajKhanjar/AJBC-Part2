@@ -36,7 +36,8 @@ public class Comment
 		this.movieId = movieId;
 	}
 	
-	public Comment() {
+	public Comment() 
+	{
 		
 	}
 	

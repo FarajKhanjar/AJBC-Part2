@@ -43,7 +43,7 @@ public class ChairDAO
 	{
 		String chairJson = gson.toJson(chair);
 		chairsCollection.insertOne(Document.parse(chairJson));
-		System.out.println("Chair was inserted to DB");
+		System.out.println("Chair Added to DataBase");
 
 	}
 
@@ -57,7 +57,7 @@ public class ChairDAO
 			chairsDocs.add(Document.parse(chairJson));
 		}
 		chairsCollection.insertMany(chairsDocs);
-		System.out.println("The list of chairs was inserted to DB");
+		System.out.println("Added list of chaires to DataBase");
 	}
 
 	public Chair getChairByID(String id) 

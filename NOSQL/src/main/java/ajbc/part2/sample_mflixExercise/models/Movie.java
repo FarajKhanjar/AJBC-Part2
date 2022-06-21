@@ -76,16 +76,9 @@ public class Movie
 	}
 
 	@Override
-	public String toString() {
+	public String toString() 
+	{
 		return "Movie [id=" + id + ", year=" + year + ", cast=" + cast + ", title=" + title
 				+ ", num_mflix_comments=" + num_mflix_comments + "]";
 	}
-	
-	
-	
-	
-	
-	
-	
-
 }

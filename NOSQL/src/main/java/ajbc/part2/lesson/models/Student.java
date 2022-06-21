@@ -7,7 +7,6 @@ import org.bson.types.ObjectId;
 
 public class Student 
 {
-
 	private ObjectId id;
 
 	@BsonProperty(value="student_id")
@@ -90,7 +89,8 @@ public class Student
 	}
 
 	@Override
-	public String toString() {
+	public String toString() 
+	{
 		return "Student [id=" + id + ", studentId=" + studentId + ", firstName=" + firstName + ", classId=" + classId
 				+ ", lastName=" + lastName + ", exams=" + exams + "]";
 	}

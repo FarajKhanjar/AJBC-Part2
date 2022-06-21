@@ -39,8 +39,6 @@ import static com.mongodb.client.model.Accumulators.sum;
 public class AggregationLookup {
 	public static void main(String[] args) 
 	{
-
-
 		// prepare codec registry
 		CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
 		CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), pojoCodecRegistry);

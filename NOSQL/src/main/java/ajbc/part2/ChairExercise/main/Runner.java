@@ -23,10 +23,8 @@ import ajbc.part2.ChairExercise.models.Measurment;
 
 public class Runner 
 {
-
 	public static void main(String[] args) 
 	{
-
 		ConnectionString connectionString = MyConnectionString.uri();
 		MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(connectionString)
 				.serverApi(ServerApi.builder().version(ServerApiVersion.V1).build()).build();

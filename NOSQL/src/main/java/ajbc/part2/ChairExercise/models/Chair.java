@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class Chair 
 {
-
 	@SerializedName("_id")
 	private ObjectId id;
 	private String manufacturer;

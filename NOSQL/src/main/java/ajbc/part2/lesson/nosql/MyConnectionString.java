@@ -44,7 +44,9 @@ public class MyConnectionString
 		} catch (IOException e) {
 			
 			e.printStackTrace();
-		} finally {
+		} 
+		finally 
+		{
 			try {
 				fileStream.close();
 			} catch (IOException e) {
