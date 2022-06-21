@@ -30,7 +30,7 @@ public class MyConnectionString
 		String user=props.getProperty("user");
 				String	password=props.getProperty("password");
 						String	cluster=props.getProperty("cluster");
-								String	serverAddress=props.getProperty("server_address");
+								String	serverAddress=props.getProperty("serverAddress");
 										String	param1=props.getProperty("param1");
 												String	param2=props.getProperty("param2");
 												
@@ -39,16 +39,16 @@ public class MyConnectionString
 		return new ConnectionString(uri);
 		
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} finally {
 			try {
 				fileStream.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}
